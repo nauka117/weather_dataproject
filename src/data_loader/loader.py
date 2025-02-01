@@ -161,3 +161,23 @@ class HistoryWeatherRequestVC(HistoryWeatherRequestBase):
 
     def get_headers(self):
         return {}
+
+class HistoryWeatherRequestMeteostat(HistoryWeatherRequestBase):
+    def __init__(self):
+        super().__init__()
+        self.base_url = "https://meteostat.p.rapidapi.com/point/hourly"
+        self.api_key = settings.METEOSTAT_API.key
+
+    def get_query_params(self):
+        return {
+            "lat": self.location['latitude'],
+            "lon": self.location['longitude'],
+            "start": self.startDateTime["ISO 8601"],
+            "end": self.endDateTime["ISO 8601"]
+        }
+
+    def get_headers(self):
+        return {
+            "x-rapidapi-key": self.api_key,
+            "x-rapidapi-host": "meteostat.p.rapidapi.com"
+        }
