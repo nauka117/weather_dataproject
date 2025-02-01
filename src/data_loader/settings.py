@@ -70,6 +70,16 @@ class WeatherbitSettings(CommonSettings):
             raise ValueError("WEATHERBIT_API_KEY must be a 50-character alphanumeric string.")
         return value
 
+class TomorrowSettings(CommonSettings):
+    key: str = Field(alias="TOMORROW_API_KEY")
+
+    @field_validator('key')
+    def validate_tomorrow_api_key(cls, value):
+        pattern = re.compile(r"^[a-z0-9]{50}$")
+        if not pattern.match(value):
+            raise ValueError("TOMORROW_API_KEY must be a 50-character alphanumeric string.")
+        return value
+
 
 class NominatimSettings(CommonSettings):
     user_agent: str = Field(alias="GC_USER_AGENT")
@@ -80,5 +90,6 @@ class Settings(CommonSettings):
     METEOSTAT_API: MeteostatSettings = Field(default_factory=MeteostatSettings)
     WEATHERAPI_API: WeatherapiSettings = Field(default_factory=WeatherapiSettings)
     WEATHERBIT_API: WeatherbitSettings = Field(default_factory=WeatherbitSettings)
+    TOMORROW_API: TomorrowSettings = Field(default_factory=TomorrowSettings)
     GC_API: NominatimSettings = Field(default_factory=NominatimSettings)
 
