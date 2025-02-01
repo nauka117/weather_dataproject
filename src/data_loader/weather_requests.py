@@ -181,3 +181,20 @@ class HistoryWeatherRequestMeteostat(HistoryWeatherRequestBase):
             "x-rapidapi-key": self.api_key,
             "x-rapidapi-host": "meteostat.p.rapidapi.com"
         }
+
+class HistoryWeatherRequestWeatherapi(HistoryWeatherRequestBase):
+    def __init__(self):
+        super().__init__()
+        self.base_url = "http://api.weatherapi.com/v1/history.json"
+        self.api_key = settings.WEATHERAPI_API.key
+
+    def get_query_params(self):
+        return {
+            "key": self.api_key,
+            "q": f"{self.location['latitude']},{self.location['longitude']}",
+            "dt": self.startDateTime["YYYY-MM-DD"],
+            "end_dt": self.endDateTime["YYYY-MM-DD"]
+        }
+
+    def get_headers(self):
+        return {}
