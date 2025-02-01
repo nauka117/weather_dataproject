@@ -122,3 +122,42 @@ class HistoryWeatherRequestBase(ABC):
         return response.json()
 
 
+class HistoryWeatherRequestOWM(HistoryWeatherRequestBase):
+    def __init__(self):
+        super().__init__()
+        self.base_url = "https://history.openweathermap.org/data/2.5/history/city"
+        self.api_key = settings.OWM_API.key
+
+    def get_query_params(self):
+        return {
+            "lat": self.location["latitude"],
+            "lon": self.location["longitude"],
+            "type": "hour",
+            "appid": self.api_key,
+            "start": self.startDateTime["unix"],
+            "end": self.endDateTime["unix"]
+        }
+
+    def get_headers(self):
+        return {}
+
+
+class HistoryWeatherRequestVC(HistoryWeatherRequestBase):
+    def __init__(self):
+        super().__init__()
+        self.base_url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/history"
+        self.api_key = settings.VC_API.key
+
+    def get_query_params(self):
+        return {
+            "location": f"{self.location['latitude']},{self.location['longitude']}",
+            "aggregateHours": 1,
+            "unitGroup": "metric",
+            "key": self.api_key,
+            "startDateTime": self.startDateTime["ISO 8601"],
+            "endDateTime": self.endDateTime["ISO 8601"],
+            "contentType": "json"
+        }
+
+    def get_headers(self):
+        return {}
