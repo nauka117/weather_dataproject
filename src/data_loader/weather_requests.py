@@ -192,8 +192,26 @@ class HistoryWeatherRequestWeatherapi(HistoryWeatherRequestBase):
         return {
             "key": self.api_key,
             "q": f"{self.location['latitude']},{self.location['longitude']}",
-            "dt": self.startDateTime["YYYY-MM-DD"],
-            "end_dt": self.endDateTime["YYYY-MM-DD"]
+            "dt": self.startDateTime["ISO 8601"],
+            "end_dt": self.endDateTime["ISO 8601"]
+        }
+
+    def get_headers(self):
+        return {}
+
+class HistoryWeatherRequestWeatherbit(HistoryWeatherRequestBase):
+    def __init__(self):
+        super().__init__()
+        self.base_url = "http://api.weatherbit.io/v2.0/history/hourly"
+        self.api_key = settings.WEATHERBIT_API.key
+
+    def get_query_params(self):
+        return {
+            "lat": self.location['latitude'],
+            "lon": self.location['longitude'],
+            "start_date": self.startDateTime["ISO 8601"],
+            "end_date": self.endDateTime["ISO 8601"],
+            "key": self.api_key
         }
 
     def get_headers(self):
