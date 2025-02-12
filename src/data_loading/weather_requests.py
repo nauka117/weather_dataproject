@@ -9,7 +9,7 @@ import re
 
 import requests
 
-from src.data_loader.settings import Settings
+from src.data_loading.settings import Settings
 settings = Settings()
 
 
