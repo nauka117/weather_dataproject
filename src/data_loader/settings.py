@@ -55,9 +55,9 @@ class WeatherapiSettings(CommonSettings):
 
     @field_validator('key')
     def validate_weatherapi_api_key(cls, value):
-        pattern = re.compile(r"^[a-z0-9]{50}$")
+        pattern = re.compile(r"^[a-f0-9]{31}$")
         if not pattern.match(value):
-            raise ValueError("WEATHERAPI_API_KEY must be a 50-character alphanumeric string.")
+            raise ValueError("WEATHERAPI_API_KEY must be a 31-character hexadecimal string.")
         return value
 
 class WeatherbitSettings(CommonSettings):
@@ -65,11 +65,10 @@ class WeatherbitSettings(CommonSettings):
 
     @field_validator('key')
     def validate_weatherbit_api_key(cls, value):
-        pattern = re.compile(r"^[a-z0-9]{50}$")
+        pattern = re.compile(r"^[a-f0-9]{32}$")
         if not pattern.match(value):
-            raise ValueError("WEATHERBIT_API_KEY must be a 50-character alphanumeric string.")
+            raise ValueError("WEATHERBIT_API_KEY must be a 32-character hexadecimal string.")
         return value
-
 
 class NominatimSettings(CommonSettings):
     user_agent: str = Field(alias="GC_USER_AGENT")
