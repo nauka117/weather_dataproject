@@ -172,8 +172,8 @@ class HistoryWeatherRequestMeteostat(HistoryWeatherRequestBase):
         return {
             "lat": self.location['latitude'],
             "lon": self.location['longitude'],
-            "start": self.startDateTime["ISO 8601"],
-            "end": self.endDateTime["ISO 8601"]
+            "start": self.startDateTime["ISO 8601"][:10],
+            "end": self.endDateTime["ISO 8601"][:10]
         }
 
     def get_headers(self):
@@ -192,8 +192,8 @@ class HistoryWeatherRequestWeatherapi(HistoryWeatherRequestBase):
         return {
             "key": self.api_key,
             "q": f"{self.location['latitude']},{self.location['longitude']}",
-            "dt": self.startDateTime["ISO 8601"],
-            "end_dt": self.endDateTime["ISO 8601"]
+            "unixdt": self.startDateTime["unix"],
+            "unixend_dt": self.endDateTime["unix"]
         }
 
     def get_headers(self):
@@ -209,8 +209,8 @@ class HistoryWeatherRequestWeatherbit(HistoryWeatherRequestBase):
         return {
             "lat": self.location['latitude'],
             "lon": self.location['longitude'],
-            "start_date": self.startDateTime["ISO 8601"],
-            "end_date": self.endDateTime["ISO 8601"],
+            "start_date": self.startDateTime["ISO 8601"][:10],
+            "end_date": self.endDateTime["ISO 8601"][:10],
             "key": self.api_key
         }
 
